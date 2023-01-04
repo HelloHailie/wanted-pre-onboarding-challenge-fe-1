@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isActive, setIsActive] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const URL = "http://localhost:8080";
 
   const changeButton = () => {
     email.includes("@") && password.length >= 8
@@ -13,18 +18,48 @@ const Auth = () => {
       : setIsActive(false);
   };
 
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isLogin) {
+      axios
+        .post(`${URL}/users/login`, {
+          email,
+          password,
+        })
+        .then((response) => {
+          console.log(response);
+          navigate(`/todo`);
+        })
+        .catch((err) => {
+          alert(err.response.data.details);
+        });
+    } else {
+      axios
+        .post(`${URL}/users/create`, {
+          email,
+          password,
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          alert(err.response.data.details);
+        });
+    }
+  };
+
   return (
     <Container>
-      <AuthLogo isLogin={isLogin}>
+      <AuthTab isLogin={isLogin}>
         <button type='button' onClick={() => setIsLogin(true)}>
           로그인
         </button>
         <button type='button' onClick={() => setIsLogin(false)}>
           회원가입
         </button>
-      </AuthLogo>
+      </AuthTab>
 
-      <AuthForm>
+      <AuthForm onSubmit={onSubmit}>
         <InputInfo>
           <Input
             type='email'
@@ -69,14 +104,17 @@ const Container = styled.div`
   align-items: center;
   height: 100vh;
 `;
-const AuthLogo = styled.div<{ isLogin: boolean }>`
+const AuthTab = styled.div<{ isLogin: boolean }>`
   width: 300px;
   display: flex;
 
   button {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    border: 1px solid gray;
+    /* border-top: 1px solid gray; */
+    box-shadow: rgba(50, 50, 93, 0.25) 1px 2px 5px -1px,
+      rgba(0, 0, 0, 0.3) -1px 1px 3px -1px;
+    border: 0;
     border-bottom: 0;
     background-color: transparent;
     padding: 10px 30px;
@@ -95,7 +133,9 @@ const AuthLogo = styled.div<{ isLogin: boolean }>`
 `;
 
 const AuthForm = styled.form`
-  border: 1px solid gray;
+  /* border: 1px solid gray; */
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   width: 300px;
   display: flex;
   flex-direction: column;
@@ -104,9 +144,10 @@ const AuthForm = styled.form`
   button {
     margin: 10px 0px;
     background-color: transparent;
-    border: 1px solid gray;
+    border: 1px solid #81a4ea;
     padding: 10px;
     width: 88%;
+    border-radius: 10px;
   }
 
   .Disabled {
@@ -129,4 +170,6 @@ const Input = styled.input`
   padding: 10px;
   margin: 10px 0px;
   width: 80%;
+  border: 1px solid lightblue;
+  border-radius: 10px;
 `;
