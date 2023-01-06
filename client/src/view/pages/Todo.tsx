@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TodoList from "../../components/TodoList";
 import InputField from "../../components/InputField";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Todo = () => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
+  const navigate = useNavigate();
 
   const URL = "http://localhost:8080";
   const token = localStorage.getItem("token");
@@ -34,6 +36,13 @@ const Todo = () => {
         });
     }
   };
+
+  useEffect(() => {
+    if (!token) {
+      alert("토큰이 유효하지 않습니다. ");
+      navigate(`/auth`);
+    }
+  }, []);
 
   return (
     <Container>
