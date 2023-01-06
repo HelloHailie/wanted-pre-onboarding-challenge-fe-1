@@ -27,7 +27,8 @@ const Auth = () => {
           password,
         })
         .then((response) => {
-          console.log(response);
+          sessionStorage.setItem("token", response.data.token);
+          console.log(response.data.token);
           navigate(`/todo`);
         })
         .catch((err) => {
