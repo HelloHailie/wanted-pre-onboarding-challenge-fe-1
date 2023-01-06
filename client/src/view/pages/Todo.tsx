@@ -1,20 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import TodoList from "../../components/TodoList";
 import InputField from "../../components/InputField";
-import { TodoMD } from "../../components/model";
 import axios from "axios";
 
 const Todo = () => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
 
+  const URL = "http://localhost:8080";
+  const token = localStorage.getItem("token");
+
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const URL = "http://localhost:8080";
-    const token = sessionStorage.getItem("token");
-    console.log(token);
 
     if (title && content) {
       axios
@@ -47,7 +45,7 @@ const Todo = () => {
         setContent={setContent}
         submitHandler={submitHandler}
       ></InputField>
-      <TodoList></TodoList>
+      <TodoList submitHandler={submitHandler}></TodoList>
     </Container>
   );
 };

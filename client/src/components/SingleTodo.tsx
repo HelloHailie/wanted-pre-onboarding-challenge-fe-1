@@ -1,22 +1,99 @@
-import React from "react";
-import { TodoMD } from "../components/model";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { AiFillEdit, AiFillDelete } from "react-icons/ai";
+import { AiFillEdit, AiFillDelete, AiOutlineEnter } from "react-icons/ai";
+import { TodoMD } from "../components/model";
+import axios from "axios";
 
 const SingleTodo = ({ id, title, content, createdAt, updatedAt }: TodoMD) => {
+  const URL = "http://localhost:8080";
+  const token = localStorage.getItem("token");
+  const [edit, setEdit] = useState<boolean>(false);
+  const [editTitle, setEditTitle] = useState<string>(title);
+  const [editContent, setEditContent] = useState<string>(content);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [edit]);
+
+  const handleEdit = (e: React.FormEvent, id: string) => {
+    e.preventDefault();
+
+    axios
+      .put(
+        `${URL}/todos/${id}`,
+        {
+          title: editTitle,
+          content: editContent,
+        },
+        { headers: { Authorization: token } }
+      )
+      .then((response) => {
+        console.log("hi");
+        console.log(response);
+
+        setEdit(false);
+      })
+      .catch((err) => {
+        alert(err.response.data.details);
+      });
+  };
+
+  const handleDelete = (id: string) => {
+    alert("선택하신 글이 삭제됩니다. ");
+    axios
+      .delete(`${URL}/todos/${id}`, { headers: { Authorization: token } })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        alert(err.response.data.details);
+      });
+  };
+
   return (
     <Container>
       <ContentContainer>
-        <Title>{title}</Title>
-        <Content>{content}</Content>
+        {edit ? (
+          <EditContainer>
+            <input
+              ref={inputRef}
+              value={editTitle}
+              onChange={(e) => {
+                setEditTitle(e.target.value);
+              }}
+            ></input>
+            <input
+              value={editContent}
+              onChange={(e) => {
+                setEditContent(e.target.value);
+              }}
+            ></input>
+            <ButtonSpan onClick={(e) => handleEdit(e, id)}>
+              <AiOutlineEnter size='20px' />
+            </ButtonSpan>
+          </EditContainer>
+        ) : (
+          <>
+            <Title>{title}</Title> <Content>{content}</Content>
+          </>
+        )}
+
         <CreatedAt>{createdAt}</CreatedAt>
+        <CreatedAt>{updatedAt}</CreatedAt>
       </ContentContainer>
       <ButtonContainer>
-        <ButtonSpan>
-          <AiFillEdit />
+        <ButtonSpan
+          onClick={() => {
+            if (!edit) {
+              setEdit(!edit);
+            }
+          }}
+        >
+          <AiFillEdit size='20px' />
         </ButtonSpan>
-        <ButtonSpan>
-          <AiFillDelete />
+        <ButtonSpan onClick={() => handleDelete(id)}>
+          <AiFillDelete size='20px' />
         </ButtonSpan>
       </ButtonContainer>
     </Container>
@@ -41,6 +118,25 @@ const ContentContainer = styled.div`
   align-items: stretch;
   padding-right: 10px;
 `;
+
+const EditContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  input {
+    height: 30px;
+    width: 250px;
+    font-size: 15px;
+    color: #6f6f6f;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #757575;
+
+    :focus {
+      outline: none;
+    }
+  }
+`;
 const Title = styled.div`
   font-weight: 700;
   font-size: 20px;
@@ -57,4 +153,5 @@ const ButtonContainer = styled.div`
 `;
 const ButtonSpan = styled.span`
   margin: 10px;
+  cursor: pointer;
 `;

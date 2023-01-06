@@ -46,10 +46,9 @@ const InputField = ({
 export default InputField;
 
 const Container = styled.div`
-  /* border: 1px solid black; */
   box-shadow: rgba(50, 50, 93, 0.25) 1px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) -1px 1px 3px -1px;
-  /* padding: 50px; */
+  width: 400px;
 `;
 const InputContainer = styled.form`
   display: flex;

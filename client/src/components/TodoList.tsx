@@ -4,11 +4,16 @@ import { TodoMD } from "../components/model";
 import axios from "axios";
 import SingleTodo from "./SingleTodo";
 
-const TodoList = () => {
+interface Prop {
+  submitHandler: (e: React.FormEvent<HTMLFormElement>) => void;
+}
+
+const TodoList = ({ submitHandler }: Prop) => {
   const [getData, setGetData] = useState<TodoMD[]>([]);
+
   const URL = "http://localhost:8080";
-  const token = sessionStorage.getItem("token");
-  console.log(getData);
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     axios
       .get(`${URL}/todos`, { headers: { Authorization: token } })
