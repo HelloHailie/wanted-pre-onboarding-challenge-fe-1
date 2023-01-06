@@ -78,9 +78,14 @@ const SingleTodo = ({ id, title, content, createdAt, updatedAt }: TodoMD) => {
             <Title>{title}</Title> <Content>{content}</Content>
           </>
         )}
-
-        <CreatedAt>{createdAt}</CreatedAt>
-        <CreatedAt>{updatedAt}</CreatedAt>
+        {createdAt !== updatedAt ? (
+          <>
+            <CreatedAt>{createdAt}</CreatedAt>
+            <CreatedAt>{updatedAt}</CreatedAt>
+          </>
+        ) : (
+          <CreatedAt>{createdAt}</CreatedAt>
+        )}
       </ContentContainer>
       <ButtonContainer>
         <ButtonSpan
