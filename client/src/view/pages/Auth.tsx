@@ -28,7 +28,6 @@ const Auth = () => {
         })
         .then((response) => {
           localStorage.setItem("token", response.data.token);
-          console.log(response.data.token);
           navigate(`/todo`);
         })
         .catch((err) => {
@@ -39,9 +38,6 @@ const Auth = () => {
         .post(`${URL}/users/create`, {
           email,
           password,
-        })
-        .then((response) => {
-          console.log(response);
         })
         .catch((err) => {
           alert(err.response.data.details);

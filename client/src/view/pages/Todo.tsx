@@ -27,7 +27,6 @@ const Todo = () => {
           { headers: { Authorization: token } }
         )
         .then((response) => {
-          console.log(response);
           setTitle("");
           setContent("");
         })

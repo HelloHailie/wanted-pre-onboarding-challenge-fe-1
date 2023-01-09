@@ -40,7 +40,6 @@ const TodoDetail = () => {
         { headers: { Authorization: token } }
       )
       .then((response) => {
-        console.log(response);
         setEdit(false);
         navigate(-1);
       })
@@ -49,13 +48,11 @@ const TodoDetail = () => {
       });
   };
 
-  console.log("editTitle:", editTitle);
   const handleDelete = (id: string) => {
     alert("선택하신 글이 삭제됩니다. ");
     axios
       .delete(`${URL}/todos/${id}`, { headers: { Authorization: token } })
       .then((response) => {
-        console.log(response);
         navigate(-1);
       })
       .catch((err) => {
