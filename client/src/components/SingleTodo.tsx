@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { AiFillEdit, AiFillDelete, AiOutlineEnter } from "react-icons/ai";
 import { TodoMD } from "../components/model";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const SingleTodo = ({ id, title, content, createdAt, updatedAt }: TodoMD) => {
   const URL = "http://localhost:8080";
@@ -74,9 +75,12 @@ const SingleTodo = ({ id, title, content, createdAt, updatedAt }: TodoMD) => {
             </ButtonSpan>
           </EditContainer>
         ) : (
-          <>
-            <Title>{title}</Title> <Content>{content}</Content>
-          </>
+          <Link
+            to={`/todo/${id}`}
+            state={{ id, title, content, createdAt, updatedAt }}
+          >
+            <Title>{title}</Title>
+          </Link>
         )}
         {createdAt !== updatedAt ? (
           <>
