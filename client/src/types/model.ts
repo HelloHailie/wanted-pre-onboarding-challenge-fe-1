@@ -5,3 +5,7 @@ export interface TodoMD {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface IToken {
+  access_token: string;
+}

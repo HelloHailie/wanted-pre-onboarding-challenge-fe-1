@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { TodoMD } from "../components/model";
+import { TodoMD } from "../types/model";
 import { Link } from "react-router-dom";
 
 const SingleTodo = ({ id, title, content, createdAt, updatedAt }: TodoMD) => {

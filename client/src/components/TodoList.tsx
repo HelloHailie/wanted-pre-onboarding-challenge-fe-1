@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { TodoMD } from "../components/model";
-import axios from "axios";
+import { TodoMD } from "../types/model";
 import SingleTodo from "./SingleTodo";
+import axiosInstance from "../utils/axiosInstance";
 
 interface Prop {
   submitHandler: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -11,13 +11,11 @@ interface Prop {
 const TodoList = ({ submitHandler }: Prop) => {
   const [getData, setGetData] = useState<TodoMD[]>([]);
 
-  const URL = "http://localhost:8080";
-  const token = localStorage.getItem("token");
-
   useEffect(() => {
-    axios
-      .get(`${URL}/todos`, { headers: { Authorization: token } })
-      .then((res) => setGetData(res.data.data));
+    axiosInstance({
+      method: "get",
+      url: "/todos",
+    }).then((res) => setGetData(res.data.data));
   }, [submitHandler]);
 
   return (
