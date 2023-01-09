@@ -91,9 +91,8 @@ const TodoDetail = () => {
             <Content>{content}</Content>
           </>
         )}
-
         <>
-          <CreatedAt>발행일 : {createdAt}</CreatedAt>{" "}
+          <CreatedAt>발행일 : {createdAt}</CreatedAt>
           <CreatedAt>수정일 : {updatedAt}</CreatedAt>
         </>
       </ContentContainer>

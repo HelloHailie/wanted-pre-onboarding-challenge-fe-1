@@ -22,11 +22,11 @@ const SingleTodo = ({ id, title, content, createdAt, updatedAt }: TodoMD) => {
 
         {createdAt !== updatedAt ? (
           <>
-            <CreatedAt>발행 : {createdAt.split("T", 1)}</CreatedAt>
-            <CreatedAt>수정 : {updatedAt.split("T", 1)}</CreatedAt>
+            <CreatedAt>발행일 : {createdAt.split("T", 1)}</CreatedAt>
+            <CreatedAt>수정일 : {updatedAt.split("T", 1)}</CreatedAt>
           </>
         ) : (
-          <CreatedAt>{createdAt}</CreatedAt>
+          <CreatedAt>발행일 : {createdAt.split("T", 1)}</CreatedAt>
         )}
       </ContentContainer>
     </Container>
