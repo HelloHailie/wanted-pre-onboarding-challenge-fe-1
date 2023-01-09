@@ -64,7 +64,7 @@ const InputLabel = styled.label``;
 
 const Input = styled.input`
   height: 30px;
-  width: 270px;
+  width: 100%;
   font-size: 15px;
   color: #6f6f6f;
   background-color: transparent;
