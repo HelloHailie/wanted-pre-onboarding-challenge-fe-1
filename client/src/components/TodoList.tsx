@@ -18,7 +18,7 @@ const TodoList = ({ submitHandler }: Prop) => {
     axios
       .get(`${URL}/todos`, { headers: { Authorization: token } })
       .then((res) => setGetData(res.data.data));
-  }, []);
+  }, [submitHandler]);
 
   return (
     <Container>
