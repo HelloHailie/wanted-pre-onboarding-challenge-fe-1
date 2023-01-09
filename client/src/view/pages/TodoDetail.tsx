@@ -87,13 +87,14 @@ const TodoDetail = () => {
           </EditContainer>
         ) : (
           <>
-            <div>{title}</div>
-            <div>{content}</div>
+            <Title>{title}</Title>
+            <Content>{content}</Content>
           </>
         )}
 
         <>
-          <div>{createdAt}</div> <div>{updatedAt}</div>
+          <CreatedAt>발행일 : {createdAt}</CreatedAt>{" "}
+          <CreatedAt>수정일 : {updatedAt}</CreatedAt>
         </>
       </ContentContainer>
       <ButtonContainer>
@@ -160,4 +161,17 @@ const ButtonContainer = styled.div`
 const ButtonSpan = styled.span`
   margin: 10px;
   cursor: pointer;
+`;
+
+const Title = styled.div`
+  font-weight: 700;
+  font-size: 20px;
+  padding-bottom: 5px;
+`;
+const Content = styled.div`
+  padding-bottom: 10px;
+`;
+
+const CreatedAt = styled.div`
+  font-size: 14px;
 `;
