@@ -27,7 +27,7 @@ const TodoDetail = () => {
   const URL = "http://localhost:8080";
   const token = localStorage.getItem("token");
 
-  const handleEdit = (e: React.FormEvent, id: string) => {
+  const editHandler = (e: React.FormEvent, id: string) => {
     e.preventDefault();
 
     axios
@@ -48,7 +48,7 @@ const TodoDetail = () => {
       });
   };
 
-  const handleDelete = (id: string) => {
+  const deleteHandler = (id: string) => {
     alert("선택하신 글이 삭제됩니다. ");
     axios
       .delete(`${URL}/todos/${id}`, { headers: { Authorization: token } })
@@ -78,7 +78,7 @@ const TodoDetail = () => {
                 setEditContent(e.target.value);
               }}
             ></input>
-            <ButtonSpan onClick={(e) => handleEdit(e, `${id}`)}>
+            <ButtonSpan onClick={(e) => editHandler(e, `${id}`)}>
               <AiOutlineEnter size='20px' />
             </ButtonSpan>
           </EditContainer>
@@ -103,7 +103,7 @@ const TodoDetail = () => {
         >
           <AiFillEdit size='20px' />
         </ButtonSpan>
-        <ButtonSpan onClick={() => handleDelete(`${id}`)}>
+        <ButtonSpan onClick={() => deleteHandler(`${id}`)}>
           <AiFillDelete size='20px' />
         </ButtonSpan>
       </ButtonContainer>

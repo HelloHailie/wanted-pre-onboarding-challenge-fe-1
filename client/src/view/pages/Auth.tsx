@@ -12,13 +12,13 @@ const Auth = () => {
 
   const URL = "http://localhost:8080";
 
-  const changeButton = () => {
+  const changeButtonHandler = () => {
     email.includes("@") && password.length >= 8
       ? setIsActive(true)
       : setIsActive(false);
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isLogin) {
       axios
@@ -56,7 +56,7 @@ const Auth = () => {
         </button>
       </AuthTab>
 
-      <AuthForm onSubmit={onSubmit}>
+      <AuthForm onSubmit={submitHandler}>
         <InputInfo>
           <Input
             type='email'
@@ -65,7 +65,7 @@ const Auth = () => {
             EMAIL'
             required
             value={email}
-            onKeyUp={changeButton}
+            onKeyUp={changeButtonHandler}
             onChange={(e) => {
               setEmail(e.target.value);
             }}
@@ -77,7 +77,7 @@ const Auth = () => {
             placeholder='PASSWORD'
             required
             value={password}
-            onKeyUp={changeButton}
+            onKeyUp={changeButtonHandler}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
