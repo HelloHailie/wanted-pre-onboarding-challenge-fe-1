@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 // import { IToken } from "../types/model";
 
@@ -25,10 +25,11 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-  async (config: any) => {
+  async (config: AxiosRequestConfig) => {
     const token = localStorage.getItem("token");
     if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`; //여기는 accessToken
+      config.headers = {};
+      config.headers.Authorization = `Bearer ${token}`; //여기는 accessToken
     }
     return config;
   },
