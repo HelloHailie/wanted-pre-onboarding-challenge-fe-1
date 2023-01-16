@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Auth from "./pages/Auth";
-import Todo from "./pages/Todo";
-import TodoDetail from "./pages/TodoDetail";
+import Auth from "../view/pages/Auth";
+import Todo from "../view/pages/Todo";
+import TodoDetail from "../view/pages/TodoDetail";
 
 const Router = () => {
   return (
