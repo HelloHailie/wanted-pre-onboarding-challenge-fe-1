@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { AiFillEdit, AiFillDelete, AiOutlineEnter } from "react-icons/ai";
+import axiosInstance from "../../utils/axiosInstance";
 
 const TodoDetail = () => {
   const location = useLocation();
@@ -24,22 +24,13 @@ const TodoDetail = () => {
     inputRef.current?.focus();
   }, [edit]);
 
-  const URL = "http://localhost:8080";
-  const token = localStorage.getItem("token");
-
   const editHandler = (e: React.FormEvent, id: string) => {
     e.preventDefault();
 
-    axios
-      .put(
-        `${URL}/todos/${id}`,
-        {
-          title: editTitle,
-          content: editContent,
-        },
-        { headers: { Authorization: token } }
-      )
+    axiosInstance
+      .put(`/todos/${id}`, { title: editTitle, content: editContent })
       .then((response) => {
+        console.log(response);
         setEdit(false);
         navigate(-1);
       })
@@ -50,9 +41,10 @@ const TodoDetail = () => {
 
   const deleteHandler = (id: string) => {
     alert("선택하신 글이 삭제됩니다. ");
-    axios
-      .delete(`${URL}/todos/${id}`, { headers: { Authorization: token } })
-      .then((response) => {
+
+    axiosInstance
+      .delete(`/todos/${id}`)
+      .then(() => {
         navigate(-1);
       })
       .catch((err) => {

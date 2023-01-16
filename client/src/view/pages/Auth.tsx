@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/axiosInstance";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -9,8 +9,6 @@ const Auth = () => {
   const [password, setPassword] = useState<string>("");
   const [isActive, setIsActive] = useState<boolean>(false);
   const navigate = useNavigate();
-
-  const URL = "http://localhost:8080";
 
   const changeButtonHandler = () => {
     email.includes("@") && password.length >= 8
@@ -21,24 +19,20 @@ const Auth = () => {
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isLogin) {
-      axios
-        .post(`${URL}/users/login`, {
-          email,
-          password,
-        })
-        .then((response) => {
-          localStorage.setItem("token", response.data.token);
+      axiosInstance
+        .post("/users/login", { email, password })
+        .then((response: any) => {
+          const token = response.token;
+          localStorage.setItem("token", token);
           navigate(`/todo`);
         })
         .catch((err) => {
           alert(err.response.data.details);
         });
     } else {
-      axios
-        .post(`${URL}/users/create`, {
-          email,
-          password,
-        })
+      axiosInstance
+        .post("/users/create", { email, password })
+
         .catch((err) => {
           alert(err.response.data.details);
         });

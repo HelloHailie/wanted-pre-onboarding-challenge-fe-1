@@ -12,10 +12,7 @@ const TodoList = ({ submitHandler }: Prop) => {
   const [getData, setGetData] = useState<TodoMD[]>([]);
 
   useEffect(() => {
-    axiosInstance({
-      method: "get",
-      url: "/todos",
-    }).then((res) => setGetData(res.data.data));
+    axiosInstance.get("/todos").then((res) => setGetData(res.data));
   }, [submitHandler]);
 
   return (

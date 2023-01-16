@@ -2,31 +2,23 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TodoList from "../../components/TodoList";
 import InputField from "../../components/InputField";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/axiosInstance";
 
 const Todo = () => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const navigate = useNavigate();
 
-  const URL = "http://localhost:8080";
   const token = localStorage.getItem("token");
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (title && content) {
-      axios
-        .post(
-          `${URL}/todos`,
-          {
-            title,
-            content,
-          },
-          { headers: { Authorization: token } }
-        )
-        .then((response) => {
+      axiosInstance
+        .post("/todos", { title, content })
+        .then(() => {
           setTitle("");
           setContent("");
         })

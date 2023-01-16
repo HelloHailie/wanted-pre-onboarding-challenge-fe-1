@@ -1,21 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios";
-
-// import { IToken } from "../types/model";
-
-// export const getTokenFromLocalStorage = (): null | IToken => {
-//   const result = localStorage.getItem("token");
-//   const token = result ? JSON.parse(result) : null;
-//   return token;
-// };
-
-// export const authHeader = () => {
-//   const token = getTokenFromLocalStorage();
-//   return {
-//     headers: {
-//       authorization: `Bearer ${token}`,
-//     },
-//   };
-// };
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8080",
@@ -27,6 +10,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   async (config: AxiosRequestConfig) => {
     const token = localStorage.getItem("token");
+
     if (token) {
       config.headers = {};
       config.headers.Authorization = `Bearer ${token}`; //여기는 accessToken
@@ -34,6 +18,23 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+axiosInstance.interceptors.response.use(
+  (response: AxiosResponse) => {
+    const res = response.data;
+    return res;
+  },
+  (error: AxiosError) => {
+    const tokenMissing = error.response?.data === "Token is missing";
+
+    if (tokenMissing) {
+      alert("로그인해주세요");
+    } else {
+      return Promise.reject(error);
+    }
     return Promise.reject(error);
   }
 );
