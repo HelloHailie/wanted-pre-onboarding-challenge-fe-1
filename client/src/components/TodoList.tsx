@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { TodoMD } from "../types/model";
 import SingleTodo from "./SingleTodo";
-import axiosInstance from "../utils/axiosInstance";
+import axiosInstance from "../api/axiosInstance";
 
 interface Prop {
   submitHandler: (e: React.FormEvent<HTMLFormElement>) => void;

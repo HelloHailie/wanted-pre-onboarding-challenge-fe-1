@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { AiFillEdit, AiFillDelete, AiOutlineEnter } from "react-icons/ai";
-import axiosInstance from "../../utils/axiosInstance";
+import axiosInstance from "../../api/axiosInstance";
 
 const TodoDetail = () => {
   const location = useLocation();

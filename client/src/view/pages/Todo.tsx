@@ -3,7 +3,7 @@ import styled from "styled-components";
 import TodoList from "../../components/TodoList";
 import InputField from "../../components/InputField";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../utils/axiosInstance";
+import axiosInstance from "../../api/axiosInstance";
 
 const Todo = () => {
   const [title, setTitle] = useState<string>("");
