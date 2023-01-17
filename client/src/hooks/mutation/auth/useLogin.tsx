@@ -4,8 +4,7 @@ import { AuthResponse, UserInfo, TNavigate } from "../../../types/model";
 
 const useLogin = (navigate: TNavigate) => {
   return useMutation((userInfo: UserInfo) => AuthAPI.login(userInfo), {
-    onSuccess: (loginData: any) => {
-      console.log(loginData);
+    onSuccess: (loginData: AuthResponse) => {
       const token = loginData.token;
       localStorage.setItem("token", token);
       navigate("/todo");
