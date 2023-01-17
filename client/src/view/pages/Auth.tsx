@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../utils/axiosInstance";
+import { emailCheck, passwordCheck } from "../../utils/validator";
+import useLogin from "../../hooks/mutation/auth/useLogin";
+import useSignup from "../../hooks/mutation/auth/useSignup";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -9,33 +11,23 @@ const Auth = () => {
   const [password, setPassword] = useState<string>("");
   const [isActive, setIsActive] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { mutate: loginMutate } = useLogin(navigate);
+  const { mutate: signUpMutate } = useSignup();
 
-  const changeButtonHandler = () => {
-    email.includes("@") && password.length >= 8
-      ? setIsActive(true)
-      : setIsActive(false);
+  const validatorHandler = () => {
+    if (emailCheck(email) && passwordCheck(password)) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
   };
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isLogin) {
-      axiosInstance
-        .post("/users/login", { email, password })
-        .then((response: any) => {
-          const token = response.token;
-          localStorage.setItem("token", token);
-          navigate(`/todo`);
-        })
-        .catch((err) => {
-          alert(err.response.data.details);
-        });
+      loginMutate({ email, password });
     } else {
-      axiosInstance
-        .post("/users/create", { email, password })
-
-        .catch((err) => {
-          alert(err.response.data.details);
-        });
+      signUpMutate({ email, password });
     }
   };
 
@@ -59,7 +51,7 @@ const Auth = () => {
             EMAIL'
             required
             value={email}
-            onKeyUp={changeButtonHandler}
+            onKeyUp={validatorHandler}
             onChange={(e) => {
               setEmail(e.target.value);
             }}
@@ -71,7 +63,7 @@ const Auth = () => {
             placeholder='PASSWORD'
             required
             value={password}
-            onKeyUp={changeButtonHandler}
+            onKeyUp={validatorHandler}
             onChange={(e) => {
               setPassword(e.target.value);
             }}

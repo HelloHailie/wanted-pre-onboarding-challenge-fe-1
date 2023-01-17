@@ -9,3 +9,15 @@ export interface TodoMD {
 export interface IToken {
   access_token: string;
 }
+
+export interface UserInfo {
+  email: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  message: string;
+  token: string;
+}
+
+export type TNavigate = (to: string) => void;
