@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import AuthAPI from "../../../api/auth";
-import { AuthResponse, UserInfo, TNavigate } from "../../../types/model";
+import AuthAPI from "../../api/auth";
+import { AuthResponse, UserInfo, TNavigate } from "../../types/model";
 
 const useLogin = (navigate: TNavigate) => {
   return useMutation((userInfo: UserInfo) => AuthAPI.login(userInfo), {

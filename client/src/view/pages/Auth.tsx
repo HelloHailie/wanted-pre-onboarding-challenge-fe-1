@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { emailCheck, passwordCheck } from "../../utils/validator";
-import useLogin from "../../hooks/mutation/auth/useLogin";
-import useSignup from "../../hooks/mutation/auth/useSignup";
+import useLogin from "../../hooks/auth/useLogin";
+import useSignup from "../../hooks/auth/useSignup";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
