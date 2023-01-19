@@ -4,6 +4,7 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { AiFillEdit, AiFillDelete, AiOutlineEnter } from "react-icons/ai";
 import useUpdateTodo from "../../hooks/todos/useUpdateTodo";
 import useDeleteTodo from "../../hooks/todos/useDeleteTodo";
+import Layout from "../../components/layout/Layout";
 
 const TodoDetail = () => {
   const location = useLocation();
@@ -41,53 +42,57 @@ const TodoDetail = () => {
   };
 
   return (
-    <Container>
-      <ContentContainer>
-        {isEdit ? (
-          <EditContainer>
-            <input
-              ref={inputRef}
-              value={editTitle}
-              onChange={(e) => {
-                setEditTitle(e.target.value);
+    <Layout
+      children={
+        <Container>
+          <ContentContainer>
+            {isEdit ? (
+              <EditContainer>
+                <input
+                  ref={inputRef}
+                  value={editTitle}
+                  onChange={(e) => {
+                    setEditTitle(e.target.value);
+                  }}
+                ></input>
+                <input
+                  value={editContent}
+                  onChange={(e) => {
+                    setEditContent(e.target.value);
+                  }}
+                ></input>
+                <ButtonSpan onClick={(e) => editHandler(e, `${id}`)}>
+                  <AiOutlineEnter size='20px' />
+                </ButtonSpan>
+              </EditContainer>
+            ) : (
+              <>
+                <Title>{title}</Title>
+                <Content>{content}</Content>
+              </>
+            )}
+            <>
+              <CreatedAt>발행일 : {createdAt}</CreatedAt>
+              <CreatedAt>수정일 : {updatedAt}</CreatedAt>
+            </>
+          </ContentContainer>
+          <ButtonContainer>
+            <ButtonSpan
+              onClick={() => {
+                if (!isEdit) {
+                  setIsEdit(!isEdit);
+                }
               }}
-            ></input>
-            <input
-              value={editContent}
-              onChange={(e) => {
-                setEditContent(e.target.value);
-              }}
-            ></input>
-            <ButtonSpan onClick={(e) => editHandler(e, `${id}`)}>
-              <AiOutlineEnter size='20px' />
+            >
+              <AiFillEdit size='20px' />
             </ButtonSpan>
-          </EditContainer>
-        ) : (
-          <>
-            <Title>{title}</Title>
-            <Content>{content}</Content>
-          </>
-        )}
-        <>
-          <CreatedAt>발행일 : {createdAt}</CreatedAt>
-          <CreatedAt>수정일 : {updatedAt}</CreatedAt>
-        </>
-      </ContentContainer>
-      <ButtonContainer>
-        <ButtonSpan
-          onClick={() => {
-            if (!isEdit) {
-              setIsEdit(!isEdit);
-            }
-          }}
-        >
-          <AiFillEdit size='20px' />
-        </ButtonSpan>
-        <ButtonSpan onClick={() => deleteHandler(`${id}`)}>
-          <AiFillDelete size='20px' />
-        </ButtonSpan>
-      </ButtonContainer>
-    </Container>
+            <ButtonSpan onClick={() => deleteHandler(`${id}`)}>
+              <AiFillDelete size='20px' />
+            </ButtonSpan>
+          </ButtonContainer>
+        </Container>
+      }
+    />
   );
 };
 
