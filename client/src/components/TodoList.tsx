@@ -10,10 +10,16 @@ const TodoList = () => {
 
   return (
     <Container>
-      <LoadingBar isLoading={isLoading} />
-      {data?.map((todo: TodoMD) => (
-        <SingleTodo key={todo.id} {...todo} />
-      ))}
+      {data ? (
+        <>
+          <LoadingBar isLoading={isLoading} />
+          {data?.map((todo: TodoMD) => (
+            <SingleTodo key={todo.id} {...todo} />
+          ))}
+        </>
+      ) : (
+        <Text>Todo를 추가해주세요.</Text>
+      )}
     </Container>
   );
 };
@@ -23,4 +29,8 @@ export default TodoList;
 const Container = styled.div`
   margin-top: 20px;
   width: 400px;
+`;
+
+const Text = styled.div`
+  text-align: center;
 `;

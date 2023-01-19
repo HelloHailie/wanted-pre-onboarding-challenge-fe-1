@@ -7,8 +7,12 @@ const usePostTodo = (navigate: TNavigate) => {
 
   return useMutation((data: ToDoContent) => TodoAPI.postTodo(data), {
     onSuccess: (data) => {
-      navigate("/todo/");
+      navigate("/todo");
       queryClient.invalidateQueries(["getTodo"]);
+    },
+    onError: () => {
+      alert("로그인을 해주세요");
+      navigate("/auth");
     },
   });
 };

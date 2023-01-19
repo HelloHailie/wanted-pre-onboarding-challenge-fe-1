@@ -12,11 +12,11 @@ const Router = () => {
       <QueryClientProvider client={queryClient}>
         <Routes>
           {["/", "/home", "*"].map((path) => {
-            return <Route path={path} element={<Auth />} key={path} />;
+            return <Route path={path} element={<Todo />} key={path} />;
           })}
-          <Route path='/auth' element={<Auth />}></Route>
           <Route path='/todo' element={<Todo />}></Route>
           <Route path='/todo/:id' element={<TodoDetail />}></Route>
+          <Route path='/auth' element={<Auth />}></Route>
         </Routes>
       </QueryClientProvider>
     </BrowserRouter>
