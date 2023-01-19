@@ -14,12 +14,13 @@ const Auth = () => {
   const { mutate: loginMutate } = useLogin(navigate);
   const { mutate: signUpMutate } = useSignup();
 
-  const validatorHandler = () => {
-    if (emailCheck(email) && passwordCheck(password)) {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
-    }
+  const emailValidatorHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    emailCheck(email) ? setIsActive(true) : setIsActive(false);
+    setEmail(e.target.value);
+  };
+  const passwordValidatorHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    passwordCheck(password) ? setIsActive(true) : setIsActive(false);
+    setPassword(e.target.value);
   };
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -46,27 +47,19 @@ const Auth = () => {
         <InputInfo>
           <Input
             type='email'
-            id='id'
             placeholder='
             EMAIL'
             required
             value={email}
-            onKeyUp={validatorHandler}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
+            onChange={emailValidatorHandler}
           ></Input>
 
           <Input
             type='password'
-            id='password'
             placeholder='PASSWORD'
             required
             value={password}
-            onKeyUp={validatorHandler}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
+            onChange={passwordValidatorHandler}
           ></Input>
         </InputInfo>
 
