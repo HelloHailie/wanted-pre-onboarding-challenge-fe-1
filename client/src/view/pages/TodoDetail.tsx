@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { AiFillEdit, AiFillDelete, AiOutlineEnter } from "react-icons/ai";
-import axiosInstance from "../../api/axiosInstance";
+import useUpdateTodo from "../../hooks/todos/useUpdateTodo";
+import useDeleteTodo from "../../hooks/todos/useDeleteTodo";
 
 const TodoDetail = () => {
   const location = useLocation();
@@ -12,50 +13,37 @@ const TodoDetail = () => {
   const createdAt = location.state.createdAt;
   const updatedAt = location.state.updatedAt;
 
-  const [edit, setEdit] = useState<boolean>(false);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
   const [editTitle, setEditTitle] = useState<string>(title);
   const [editContent, setEditContent] = useState<string>(content);
 
   const { id } = useParams();
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const { mutate: updateToDoMutate } = useUpdateTodo();
+  const { mutate: deleteToDoMutate } = useDeleteTodo(navigate);
 
   useEffect(() => {
     inputRef.current?.focus();
-  }, [edit]);
+  }, [isEdit]);
 
   const editHandler = (e: React.FormEvent, id: string) => {
     e.preventDefault();
 
-    axiosInstance
-      .put(`/todos/${id}`, { title: editTitle, content: editContent })
-      .then((response) => {
-        console.log(response);
-        setEdit(false);
-        navigate(-1);
-      })
-      .catch((err) => {
-        alert(err.response.data.details);
-      });
+    const data = { title: editTitle, content: editContent };
+    updateToDoMutate({ id, data });
+    navigate(-1);
   };
 
   const deleteHandler = (id: string) => {
     alert("선택하신 글이 삭제됩니다. ");
-
-    axiosInstance
-      .delete(`/todos/${id}`)
-      .then(() => {
-        navigate(-1);
-      })
-      .catch((err) => {
-        alert(err.response.data.details);
-      });
+    deleteToDoMutate(id);
   };
 
   return (
     <Container>
       <ContentContainer>
-        {edit ? (
+        {isEdit ? (
           <EditContainer>
             <input
               ref={inputRef}
@@ -88,8 +76,8 @@ const TodoDetail = () => {
       <ButtonContainer>
         <ButtonSpan
           onClick={() => {
-            if (!edit) {
-              setEdit(!edit);
+            if (!isEdit) {
+              setIsEdit(!isEdit);
             }
           }}
         >

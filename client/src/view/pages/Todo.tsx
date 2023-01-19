@@ -3,12 +3,13 @@ import styled from "styled-components";
 import TodoList from "../../components/TodoList";
 import InputField from "../../components/InputField";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../api/axiosInstance";
+import usePostToDo from "../../hooks/todos/usePostTodo";
 
 const Todo = () => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const navigate = useNavigate();
+  const { mutate: postToDoMutate } = usePostToDo(navigate);
 
   const token = localStorage.getItem("token");
 
@@ -16,15 +17,9 @@ const Todo = () => {
     e.preventDefault();
 
     if (title && content) {
-      axiosInstance
-        .post("/todos", { title, content })
-        .then(() => {
-          setTitle("");
-          setContent("");
-        })
-        .catch((err) => {
-          alert(err.response.data.details);
-        });
+      postToDoMutate({ title, content });
+      setTitle("");
+      setContent("");
     }
   };
 
@@ -45,7 +40,7 @@ const Todo = () => {
         setContent={setContent}
         submitHandler={submitHandler}
       ></InputField>
-      <TodoList submitHandler={submitHandler}></TodoList>
+      <TodoList></TodoList>
     </Container>
   );
 };

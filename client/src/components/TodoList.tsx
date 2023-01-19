@@ -1,23 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { TodoMD } from "../types/model";
 import SingleTodo from "./SingleTodo";
-import axiosInstance from "../api/axiosInstance";
+import useGetToDo from "../hooks/todos/useGetTodo";
+import LoadingBar from "../components/LodingBar";
 
-interface Prop {
-  submitHandler: (e: React.FormEvent<HTMLFormElement>) => void;
-}
-
-const TodoList = ({ submitHandler }: Prop) => {
-  const [getData, setGetData] = useState<TodoMD[]>([]);
-
-  useEffect(() => {
-    axiosInstance.get("/todos").then((res) => setGetData(res.data));
-  }, [submitHandler]);
+const TodoList = () => {
+  const { data, isLoading } = useGetToDo();
 
   return (
     <Container>
-      {getData.map((todo) => (
+      <LoadingBar isLoading={isLoading} />
+      {data?.map((todo: TodoMD) => (
         <SingleTodo key={todo.id} {...todo} />
       ))}
     </Container>

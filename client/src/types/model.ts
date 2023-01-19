@@ -21,3 +21,16 @@ export interface AuthResponse {
 }
 
 export type TNavigate = (to: string) => void;
+
+export interface ILoadingBar {
+  isLoading: boolean;
+}
+
+export interface ToDoContent {
+  title: string;
+  content: string;
+}
+export interface ToDoContentAndId {
+  id: string | undefined;
+  data: ToDoContent;
+}
