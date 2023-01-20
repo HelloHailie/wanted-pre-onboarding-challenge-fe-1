@@ -22,9 +22,9 @@ npm start
 
 ## 📚 리팩토링 일지
 
-```
 [리팩토링 일지 링크](https://shinystarforever.tistory.com/332)
-```
+
+<br/>
 
 ## 🔎 Directory Structure / client
 
